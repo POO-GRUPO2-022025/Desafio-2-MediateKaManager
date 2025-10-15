@@ -10,24 +10,21 @@ public abstract class Material {
         DVD
     }
 
-    // Atributos 
+    // Atributos
     private long id;
     private String codigoInterno;
     private String titulo;
     private int unidadesDisponibles;
-    private TipoMaterial tipo;
 
     // Constructor
-    public Material(long id, String codigoInterno, String titulo, int unidadesDisponibles, TipoMaterial tipo) {
+    public Material(long id, String codigoInterno, String titulo, int unidadesDisponibles) {
         this.id = id;
         this.codigoInterno = codigoInterno;
-         this.tipo = tipo;
         this.titulo = titulo;
         this.unidadesDisponibles = unidadesDisponibles;
-       
     }
 
-    // Getters y Setters públicos
+    // Getters y Setters
     public long getId() {
         return id;
     }
@@ -60,13 +57,15 @@ public abstract class Material {
         this.unidadesDisponibles = unidadesDisponibles;
     }
 
-    public TipoMaterial getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoMaterial tipo) {
-        this.tipo = tipo;
-    }
-
+    public abstract TipoMaterial getTipoMaterial();
     public abstract String mostrarInformacion();
+    
+    @Override
+    public String toString() {
+        return "ID: " + id +
+               ", Código: " + codigoInterno +
+               ", Título: " + titulo +
+               ", Unidades: " + unidadesDisponibles +
+               ", Tipo: " + getTipoMaterial();
+    }
 }
