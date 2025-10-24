@@ -1,6 +1,6 @@
 package sv.edu.udb.Padresclass;
 
-public abstract class Material {
+public class Material {
 
     // Enum para los tipos de material
     public enum TipoMaterial {
@@ -10,21 +10,23 @@ public abstract class Material {
         DVD
     }
 
-    // Atributos
+    // 🔹 Atributos comunes
     private long id;
     private String codigoInterno;
     private String titulo;
     private int unidadesDisponibles;
+    private TipoMaterial tipoMaterial; // añadimos un tipo para identificarlo
 
-    // Constructor
-    public Material(long id, String codigoInterno, String titulo, int unidadesDisponibles) {
+    // 🔹 Constructor
+    public Material(long id, String codigoInterno, String titulo, int unidadesDisponibles, TipoMaterial tipoMaterial) {
         this.id = id;
         this.codigoInterno = codigoInterno;
         this.titulo = titulo;
         this.unidadesDisponibles = unidadesDisponibles;
+        this.tipoMaterial = tipoMaterial;
     }
 
-    // Getters y Setters
+    // 🔹 Getters y Setters
     public long getId() {
         return id;
     }
@@ -57,15 +59,27 @@ public abstract class Material {
         this.unidadesDisponibles = unidadesDisponibles;
     }
 
-    public abstract TipoMaterial getTipoMaterial();
-    public abstract String mostrarInformacion();
-    
-    @Override
-    public String toString() {
+    public TipoMaterial getTipoMaterial() {
+        return tipoMaterial;
+    }
+
+    public void setTipoMaterial(TipoMaterial tipoMaterial) {
+        this.tipoMaterial = tipoMaterial;
+    }
+
+    // 🔹 Método para mostrar información
+    public String mostrarInformacion() {
         return "ID: " + id +
                ", Código: " + codigoInterno +
                ", Título: " + titulo +
-               ", Unidades: " + unidadesDisponibles +
-               ", Tipo: " + getTipoMaterial();
+               ", Unidades disponibles: " + unidadesDisponibles +
+               ", Tipo: " + tipoMaterial;
+    }
+
+    // 🔹 Sobrescritura del método toString()
+    @Override
+    public String toString() {
+        return mostrarInformacion();
     }
 }
+

@@ -9,9 +9,10 @@ public class Libro extends Material {
     private String isbn;
     private int anioPublicacion;
 
+    // 🔹 Constructor actualizado
     public Libro(long id, String codigoInterno, String titulo, int unidadesDisponibles,
                  String autor, int numeroPaginas, String editorial, String isbn, int anioPublicacion) {
-        super(id, codigoInterno, titulo, unidadesDisponibles);
+        super(id, codigoInterno, titulo, unidadesDisponibles, TipoMaterial.LIBRO); // 👈 se agrega el tipo
         this.autor = autor;
         this.numeroPaginas = numeroPaginas;
         this.editorial = editorial;
@@ -19,7 +20,7 @@ public class Libro extends Material {
         this.anioPublicacion = anioPublicacion;
     }
 
-    // Getters y Setters
+    // 🔹 Getters y Setters
     public String getAutor() {
         return autor;
     }
@@ -60,16 +61,7 @@ public class Libro extends Material {
         this.anioPublicacion = anioPublicacion;
     }
 
-    @Override
-    public TipoMaterial getTipoMaterial() {
-        return TipoMaterial.LIBRO;
-    }
-
-    @Override
-    public String mostrarInformacion() {
-        return toString();
-    }
-
+    // 🔹 Sobrescribimos toString para incluir más datos
     @Override
     public String toString() {
         return super.toString() +
