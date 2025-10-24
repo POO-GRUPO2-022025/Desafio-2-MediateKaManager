@@ -6,7 +6,7 @@ USE mediateca;
 CREATE TABLE material (
                           id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                           codigo_interno VARCHAR(16) NOT NULL,
-                          tipo ENUM('LIB','REV','CDA','DVD') NOT NULL,
+                          tipo ENUM('LIBRO','REVISTA','CD','DVD') NOT NULL,
                           titulo VARCHAR(255) NOT NULL,
                           unidades_disponibles INT NOT NULL DEFAULT 0,
                           CONSTRAINT pk_material PRIMARY KEY (id),
@@ -14,11 +14,11 @@ CREATE TABLE material (
 );
 
 CREATE TABLE seq_tipo (
-                          tipo ENUM('LIB','REV','CDA','DVD') PRIMARY KEY,
+                          tipo ENUM('LIBRO','REVISTA','CD','DVD') PRIMARY KEY,
                           siguiente INT NOT NULL
 );
 
-INSERT INTO seq_tipo VALUES ('LIB',0),('REV',0),('CDA',0),('DVD',0);
+INSERT INTO seq_tipo VALUES ('LIBRO',0),('REVISTA',0),('CD',0),('DVD',0);
 
 DELIMITER //
 CREATE TRIGGER trg_material_bi
