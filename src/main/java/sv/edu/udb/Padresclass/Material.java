@@ -10,14 +10,14 @@ public class Material {
         DVD
     }
 
-    // 🔹 Atributos comunes
+    //  Atributos comunes
     private long id;
     private String codigoInterno;
     private String titulo;
     private int unidadesDisponibles;
     private TipoMaterial tipoMaterial; // añadimos un tipo para identificarlo
 
-    // 🔹 Constructor
+    //  Constructor
     public Material(long id, String codigoInterno, String titulo, int unidadesDisponibles, TipoMaterial tipoMaterial) {
         this.id = id;
         this.codigoInterno = codigoInterno;
@@ -26,7 +26,7 @@ public class Material {
         this.tipoMaterial = tipoMaterial;
     }
 
-    // 🔹 Getters y Setters
+    //  Getters y Setters
     public long getId() {
         return id;
     }
@@ -67,7 +67,7 @@ public class Material {
         this.tipoMaterial = tipoMaterial;
     }
 
-    // 🔹 Método para mostrar información
+    //  Método para mostrar información
     public String mostrarInformacion() {
         return "ID: " + id +
                ", Código: " + codigoInterno +
@@ -76,7 +76,7 @@ public class Material {
                ", Tipo: " + tipoMaterial;
     }
 
-    // 🔹 Sobrescritura del método toString()
+    //  Sobrescritura del método toString()
     @Override
     public String toString() {
         return mostrarInformacion();
