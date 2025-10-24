@@ -12,7 +12,7 @@ public class Libro extends Material {
     // Constructor actualizado
     public Libro(long id, String codigoInterno, String titulo, int unidadesDisponibles,
                  String autor, int numeroPaginas, String editorial, String isbn, int anioPublicacion) {
-        super(id, codigoInterno, titulo, unidadesDisponibles, TipoMaterial.LIBRO); // 👈 se agrega el tipo
+        super(id, codigoInterno, titulo, unidadesDisponibles, TipoMaterial.LIBRO); 
         this.autor = autor;
         this.numeroPaginas = numeroPaginas;
         this.editorial = editorial;
