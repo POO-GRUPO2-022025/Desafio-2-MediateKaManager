@@ -16,7 +16,7 @@ public class Libro extends Material {
         this.autor = autor;
         this.numeroPaginas = numeroPaginas;
         this.editorial = editorial;
-        this.isbn = isbn;y
+        this.isbn = isbn;
         this.anioPublicacion = anioPublicacion;
     }
 
