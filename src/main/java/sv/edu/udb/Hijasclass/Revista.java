@@ -6,7 +6,7 @@ public class Revista extends Material {
 
     private String editorial;
     private String periodicidad;
-    private String fechaPublicacion; // Podrías usar LocalDate si quieres
+    private String fechaPublicacion; 
 
     // Constructor
     public Revista(long id, String codigoInterno, String titulo, int unidadesDisponibles,
