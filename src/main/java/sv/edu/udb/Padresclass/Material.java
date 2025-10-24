@@ -15,7 +15,7 @@ public class Material {
     private String codigoInterno;
     private String titulo;
     private int unidadesDisponibles;
-    private TipoMaterial tipoMaterial; // añadimos un tipo para identificarlo
+    private TipoMaterial tipoMaterial; 
 
     //  Constructor
     public Material(long id, String codigoInterno, String titulo, int unidadesDisponibles, TipoMaterial tipoMaterial) {
