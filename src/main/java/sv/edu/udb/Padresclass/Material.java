@@ -1,6 +1,6 @@
 package sv.edu.udb.Padresclass;
 
-public abstract class Material {
+public class Material {
 
     // Enum para los tipos de material
     public enum TipoMaterial {
@@ -10,24 +10,23 @@ public abstract class Material {
         DVD
     }
 
-    // Atributos 
+    //  Atributos comunes
     private long id;
     private String codigoInterno;
     private String titulo;
     private int unidadesDisponibles;
-    private TipoMaterial tipo;
+    private TipoMaterial tipoMaterial; // añadimos un tipo para identificarlo
 
-    // Constructor
-    public Material(long id, String codigoInterno, String titulo, int unidadesDisponibles, TipoMaterial tipo) {
+    //  Constructor
+    public Material(long id, String codigoInterno, String titulo, int unidadesDisponibles, TipoMaterial tipoMaterial) {
         this.id = id;
         this.codigoInterno = codigoInterno;
-         this.tipo = tipo;
         this.titulo = titulo;
         this.unidadesDisponibles = unidadesDisponibles;
-       
+        this.tipoMaterial = tipoMaterial;
     }
 
-    // Getters y Setters públicos
+    //  Getters y Setters
     public long getId() {
         return id;
     }
@@ -60,13 +59,27 @@ public abstract class Material {
         this.unidadesDisponibles = unidadesDisponibles;
     }
 
-    public TipoMaterial getTipo() {
-        return tipo;
+    public TipoMaterial getTipoMaterial() {
+        return tipoMaterial;
     }
 
-    public void setTipo(TipoMaterial tipo) {
-        this.tipo = tipo;
+    public void setTipoMaterial(TipoMaterial tipoMaterial) {
+        this.tipoMaterial = tipoMaterial;
     }
 
-    public abstract String mostrarInformacion();
+    //  Método para mostrar información
+    public String mostrarInformacion() {
+        return "ID: " + id +
+               ", Código: " + codigoInterno +
+               ", Título: " + titulo +
+               ", Unidades disponibles: " + unidadesDisponibles +
+               ", Tipo: " + tipoMaterial;
+    }
+
+    //  Sobrescritura del método toString()
+    @Override
+    public String toString() {
+        return mostrarInformacion();
+    }
 }
+
