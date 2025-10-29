@@ -1,12 +1,13 @@
 package sv.edu.udb.GUI;
 
+
 import javax.swing.*;
 import java.awt.*;
 
 public class PantallaInicial extends JFrame{
     private final Paneles panel = new Paneles(this);
-    private final JFrame pantalla = new JFrame("Ventana inicial");
-    private String opcioneMenu;
+    private final JFrame pantalla = new JFrame("MediateKaManager");
+    private String opcionMenu;
 
     public PantallaInicial() {
 
@@ -29,6 +30,7 @@ public class PantallaInicial extends JFrame{
         JButton btnOpe = new JButton("Entrar como Operador");
         btnOpe.addActionListener(e -> {
                     JMenuBar menuBarra = createMenuBarOpe();
+                    pantalla.setTitle("MediatekaManager - OPE");
                     pantalla.setJMenuBar(menuBarra);
                     pantalla.revalidate();
                     panelInicial.setVisible(false);
@@ -38,6 +40,7 @@ public class PantallaInicial extends JFrame{
         JButton btnUser = new JButton("Entrar como Usuario");
         btnUser.addActionListener(e -> {
                     JMenuBar menuBarraUser = createMenuBarUser();
+                    pantalla.setTitle("MediatekaManager - USER");
                     pantalla.setJMenuBar(menuBarraUser);
                     pantalla.revalidate();
                     panelInicial.setVisible(false);
@@ -72,13 +75,14 @@ public class PantallaInicial extends JFrame{
            panel.construirPanel();
             pantalla.getContentPane().removeAll();
             pantalla.getContentPane().add(panel);
+            pantalla.setTitle("MediatekaManager - OPE - AGREGAR");
             pantalla.revalidate();
             pantalla.repaint();
             activarItemsMenu(menuOpe, true);
 
 
            itemAgregar.setEnabled(false);
-           opcioneMenu="Agregar";
+           opcionMenu="Agregar";
 
 
         });
@@ -87,49 +91,54 @@ public class PantallaInicial extends JFrame{
             panel.construirPanel();
             pantalla.getContentPane().removeAll();
             pantalla.getContentPane().add(panel);
+            pantalla.setTitle("MediatekaManager - OPE - BUSCAR");
             pantalla.revalidate();
             pantalla.repaint();
             activarItemsMenu(menuOpe, true);
 
             itemBuscar.setEnabled(false);
-            opcioneMenu="buscar";
+            opcionMenu="buscar";
         });
         itemBorrar.addActionListener(e -> {
             panel.construirPanel();
             pantalla.getContentPane().removeAll();
             pantalla.getContentPane().add(panel);
+            pantalla.setTitle("MediatekaManager - OPE - BORRAR");
             pantalla.revalidate();
             pantalla.repaint();
             activarItemsMenu(menuOpe, true);
 
             itemBorrar.setEnabled(false);
-            opcioneMenu="borrar";
+            opcionMenu="borrar";
         });
         itemModificar.addActionListener(e -> {
             panel.construirPanel();
             pantalla.getContentPane().removeAll();
             pantalla.getContentPane().add(panel);
+            pantalla.setTitle("MediatekaManager - OPE - MODIFICAR");
             pantalla.revalidate();
             pantalla.repaint();
             activarItemsMenu(menuOpe, true);
 
             itemModificar.setEnabled(false);
-            opcioneMenu="modificar";
+            opcionMenu="modificar";
         });
         itemListar.addActionListener(e -> {
             panel.construirPanel();
             pantalla.getContentPane().removeAll();
             pantalla.getContentPane().add(panel);
+            pantalla.setTitle("MediatekaManager - OPE - LISTAR");
             pantalla.revalidate();
             pantalla.repaint();
             activarItemsMenu(menuOpe, true);
 
             itemListar.setEnabled(false);
-            opcioneMenu="listar";
+            opcionMenu="listar";
         });
         itemSalir.addActionListener(e -> {
             pantalla.getContentPane().removeAll();
             PanelInicial();
+            pantalla.setTitle("MediatekaManager");
             pantalla.revalidate();
             pantalla.repaint();
             activarItemsMenu(menuOpe, true);
@@ -155,27 +164,30 @@ public class PantallaInicial extends JFrame{
             panel.construirPanel();
             pantalla.getContentPane().removeAll();
             pantalla.getContentPane().add(panel);
+            pantalla.setTitle("MediatekaManager - USER - BUSCAR");
             pantalla.revalidate();
             pantalla.repaint();
             activarItemsMenu(menuUser, true);
 
             itemBuscar.setEnabled(false);
-            opcioneMenu="buscar";
+            opcionMenu="buscar";
         });
         itemListar.addActionListener(e -> {
             panel.construirPanel();
             pantalla.getContentPane().removeAll();
             pantalla.getContentPane().add(panel);
+            pantalla.setTitle("MediatekaManager - USER - LISTAR");
             pantalla.revalidate();
             pantalla.repaint();
             activarItemsMenu(menuUser, true);
 
             itemListar.setEnabled(false);
-            opcioneMenu="listar";
+            opcionMenu="listar";
         });
         itemSalir.addActionListener(e -> {
             pantalla.getContentPane().removeAll();
             PanelInicial();
+            pantalla.setTitle("MediatekaManager");
             pantalla.revalidate();
             pantalla.repaint();
             activarItemsMenu(menuUser, true);
@@ -195,7 +207,7 @@ public class PantallaInicial extends JFrame{
     }
 
     public String getOpcioneMenu(){
-        return opcioneMenu;
+        return opcionMenu;
     }
 
 }
