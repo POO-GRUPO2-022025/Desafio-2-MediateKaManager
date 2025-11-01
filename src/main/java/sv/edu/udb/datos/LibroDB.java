@@ -23,7 +23,11 @@ public class LibroDB {
     // INNER JOIN combina datos de las tablas material y libro
     private final String SQL_SELECT_POR_CODIGO_INTERNO = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, l.autor, l.numero_paginas, l.editorial, l.isbn, l.anio_publicacion FROM libro l INNER JOIN material m ON l.id_material = m.id WHERE m.codigo_interno=?";
     private final String SQL_SELECT_POR_ID = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, l.autor, l.numero_paginas, l.editorial, l.isbn, l.anio_publicacion FROM libro l INNER JOIN material m ON l.id_material = m.id WHERE m.id=?";
-    private static final String SQL_SELECT_ALL = "SELECT * FROM libros";
+    private static final String SQL_SELECT_ALL = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, " +
+            "l.autor, l.numero_paginas, l.editorial, l.isbn, l.anio_publicacion " +
+            "FROM libro l INNER JOIN material m ON l.id_material = m.id";
+
+
 
 
     /**

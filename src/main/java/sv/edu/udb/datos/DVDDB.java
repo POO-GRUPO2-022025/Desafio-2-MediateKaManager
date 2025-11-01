@@ -1,6 +1,7 @@
 package sv.edu.udb.datos;
 
 import sv.edu.udb.Hijasclass.DVD;
+import sv.edu.udb.Hijasclass.Libro;
 import sv.edu.udb.Padresclass.Material;
 
 import java.sql.*;
@@ -16,6 +17,7 @@ public class DVDDB {
     private final String SQL_DELETE = "DELETE FROM dvd WHERE id_material=?";
     private final String SQL_SELECT_POR_CODIGO_INTERNO = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, d.director, d.genero, d.duracion_min FROM dvd d INNER JOIN material m ON d.id_material = m.id WHERE m.codigo_interno=?";
     private final String SQL_SELECT_POR_ID = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, d.director, d.genero, d.duracion_min FROM dvd d INNER JOIN material m ON d.id_material = m.id WHERE m.id=?";
+    private final String SQL_SELECT_ALL = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, d.director, d.genero, d.duracion_min FROM dvd d INNER JOIN material m ON d.id_material = m.id";
 
     public DVD insert(DVD nuevoDVD) throws SQLException {
         Connection conn = null;
@@ -172,6 +174,35 @@ public class DVDDB {
         } finally {
             Conexion.close(stmt);
         }
+    }
+
+    public List<DVD> selectALL() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<DVD> dvdsGuardados = new ArrayList<>();
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT_ALL);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                dvdsGuardados.add(new DVD(
+                        rs.getLong("id"),
+                        rs.getString("codigo_interno"),
+                        rs.getString("titulo"),
+                        rs.getInt("unidades_disponibles"),
+                        rs.getString("director"),
+                        rs.getString("genero"),
+                        rs.getInt("duracion_min")));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+        }
+        return dvdsGuardados;
     }
 
 }

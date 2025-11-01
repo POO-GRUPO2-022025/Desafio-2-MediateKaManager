@@ -1,5 +1,6 @@
 package sv.edu.udb.datos;
 
+import sv.edu.udb.Hijasclass.Libro;
 import sv.edu.udb.Hijasclass.Revista;
 import sv.edu.udb.Padresclass.Material;
 
@@ -16,7 +17,7 @@ public class RevistaDB {
     private final String SQL_DELETE = "DELETE FROM revista WHERE id_material=?";
     private final String SQL_SELECT_POR_CODIGO_INTERNO = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, r.editorial, r.periodicidad, r.fecha_publicacion FROM revista r INNER JOIN material m ON r.id_material = m.id WHERE m.codigo_interno=?";
     private final String SQL_SELECT_POR_ID = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, r.editorial, r.periodicidad, r.fecha_publicacion FROM revista r INNER JOIN material m ON r.id_material = m.id WHERE m.id=?";
-
+    private final String SQL_SELECT_ALL = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, r.editorial, r.periodicidad, r.fecha_publicacion FROM revista r INNER JOIN material m ON r.id_material = m.id";
     public Revista insert(Revista nuevaRevista) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -172,6 +173,33 @@ public class RevistaDB {
         } finally {
             Conexion.close(stmt);
         }
+    }
+    public List<Revista> selectALL() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Revista> revistasGuardadas = new ArrayList<>();
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT_ALL);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                revistasGuardadas.add(new Revista(
+                        rs.getLong("id"),
+                        rs.getString("codigo_interno"),
+                        rs.getString("titulo"),
+                        rs.getInt("unidades_disponibles"),
+                        rs.getString("editorial"),
+                        rs.getString("periodicidad"),
+                        rs.getString("fecha_publicacion")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+        }
+        return revistasGuardadas;
     }
 
 }
