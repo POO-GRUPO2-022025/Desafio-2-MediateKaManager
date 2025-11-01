@@ -1,16 +1,18 @@
 package sv.edu.udb.GUI;
 
 import sv.edu.udb.GUI.Acciones.AccionAlmacenar;
+import sv.edu.udb.GUI.Acciones.AccionRelleno;
 import sv.edu.udb.GUI.Acciones.AccionListar;
+import sv.edu.udb.Hijasclass.CD;
+import sv.edu.udb.Hijasclass.DVD;
 import sv.edu.udb.Hijasclass.Libro;
-import sv.edu.udb.datos.LibroDB;
+import sv.edu.udb.Hijasclass.Revista;
 
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.ArrayList;
 
 public class Paneles extends JPanel {
     private PantallaInicial pantalla;
@@ -52,6 +54,7 @@ public class Paneles extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints(); //Establece el gbc que nos ayudara a ubicar los componentes
         String[] opciones = {"Libro", "Revista", "CD Audio", "DVD"}; //Se agregan las opciones que contiene el combolist
 
+
         //Agregamos la label y el combo que nos permite seleccionar el tipo de material que se trabajara
         gbc.gridx = 0; //Columna 0
         gbc.gridy = 0; //Fila 0
@@ -69,55 +72,49 @@ public class Paneles extends JPanel {
         btnGo.addActionListener(e -> { //Listener para el boton
 
             controlOpciones = (String) comboTipoMaterial.getSelectedItem(); //Se agrega la opcion elegida en el listado a la variable de control
-            String menu = pantalla.getOpcioneMenu(); //Se agrega la opcion que previamente se elegio desde el menu, de esto depende si se trabajara listar materiales
+            String menu = pantalla.getOpcioneMenu();
+            ;//Se agrega la opcion que previamente se elegio desde el menu, de esto depende si se trabajara listar materiales
             if (menu.equals("listar")){ //Si la opcion del menu elegida es listar, listará los datos
+
+                AccionListar listar = new AccionListar();
+                List <Object[]> datos;
+                String[] columnas = new String[0];
+
+
 
                 //El siguiente switch case, mostrará los datos de la tabla dependiendo la seleccion que se haga en el listado
                 switch (controlOpciones) {
+
                     case "Libro":
-
-
+                       columnas= new String[] {
+                                "COD INTERNO", "TITULO", "AUTOR", "EDITORIAL", "AÑO", "ISBN", "PAGINAS", "UND DISPONIBLES"
+                        };
                         break;
-
                     case "Revista":
-                        //Se han agregado datos para prueba de la tabla
-                        String[] columnasRev = {"Revista", "Revista", "Revista"}; //Se definen las columnas y los encabezados
-                        List<Object[]> datosRev = new ArrayList<>(); //Se agrega instancia de un ArrayLista que se utilizara para agregar las datos de las fials
-                        //Se agregan datos para prueba al ArrayLista
-                        datosRev.add(new Object[]{"001", "El Quijote", "Cervantes"});
-                        datosRev.add(new Object[]{"002", "Cien años de soledad", "García Márquez"});
-                        //Llamamos al metodo para crear la tabla con las propiedas columnas y el arraylista datos
-                        mostrarTabla(columnasRev,datosRev);
-
+                        columnas= new String[] {
+                                "COD INTERNO", "TITULO", "EDITORIAL", "FECHA PUBLIC", "PERIOCIDAD", "UND DISPONIBLES"
+                        };
                         break;
-
                     case "CD Audio":
-                        //Se han agregado datos para prueba de la tabla
-                        String[] columnasCd = {"CD Audio", "CD Audio", "CD Audio"}; //Se definen las columnas y los encabezados
-                        List<Object[]> datosCd = new ArrayList<>(); //Se agrega instancia de un ArrayLista que se utilizara para agregar las datos de las fials
-                        //Se agregan datos para prueba al ArrayLista
-                        datosCd.add(new Object[]{"001", "El Quijote", "Cervantes"});
-                        datosCd.add(new Object[]{"002", "Cien años de soledad", "García Márquez"});
-                        //Llamamos al metodo para crear la tabla con las propiedas columnas y el arraylista datos
-                        mostrarTabla(columnasCd,datosCd);
-
+                        columnas= new String[] {
+                                "COD INTERNO", "TITULO", "ARTISTA", "GENERO", "N° CANCIONES", "DURACION", "UND DISPONIBLES"
+                        };
                         break;
-
                     case "DVD":
-                        //Se han agregado datos para prueba de la tabla
-                        String[] columnasDvd = {"DVD", "DVD", "DVD"}; //Se definen las columnas y los encabezados
-                        List<Object[]> datosDvd = new ArrayList<>(); //Se agrega instancia de un ArrayLista que se utilizara para agregar las datos de las fials
-                        //Se agregan datos para prueba al ArrayLista
-                        datosDvd.add(new Object[]{"001", "El Quijote", "Cervantes"});
-                        datosDvd.add(new Object[]{"002", "Cien años de soledad", "García Márquez"});
-                        //Llamamos al metodo para crear la tabla con las propiedas columnas y el arraylista datos
-                        mostrarTabla(columnasDvd,datosDvd);
-
+                        columnas= new String[] {
+                                "COD INTERNO", "TITULO", "GENERO", "DIRECTOR", "DURACION", "UND DISPONIBLES"
+                        };
                         break;
-
                     default:
                         throw new IllegalStateException("Unexpected value: " + controlOpciones);
                 }
+                try {
+                    datos = listar.AccionListar(controlOpciones);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                mostrarTabla(columnas,datos);
+
 
             }else { //De lo contrario mostrará los paneles para ver y modificar datos
                 panelInferior.removeAll(); // Limpia el contenido anterior
@@ -139,6 +136,9 @@ public class Paneles extends JPanel {
     public JPanel crearPanelInferior() {
         String menu = pantalla.getOpcioneMenu(); //Se obtiene la opcion que se trabaja si es para agregar, modificar, etc.
         System.out.println("Opción desde PantallaInicial: " + menu);//Solo es para control BORRAR
+        panelInferior.setPreferredSize(new Dimension(800, 400));
+
+        AccionRelleno buscar = new AccionRelleno();
 
         JPanel panel = new JPanel(); //Se declara el nuevo panel que se trabajara con las opciones para ingresar datos
         panel.setLayout(new GridBagLayout()); //Setea el panel con GridBagLayout para controlar cada uno de los elementos
@@ -222,6 +222,21 @@ public class Paneles extends JPanel {
                             campoCodigo.setEnabled(false);
                         }
                         //INGRESAR EL PROCESO DE BUSQUEDA DE DATOS <---------------------
+
+                        String codigoBuscar = campoCodigo.getText();
+                        List <Libro> resultado;
+                        try {
+                            resultado = buscar.buscarLibro(codigoBuscar);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        campoTitulo.setText(resultado.get(0).getTitulo());
+                        campoAutor.setText(resultado.get(0).getAutor());
+                        campoNumPaginas.setText(String.valueOf(resultado.get(0).getNumeroPaginas()));
+                        campoEditorial.setText(resultado.get(0).getEditorial());
+                        campoISBN.setText(resultado.get(0).getIsbn());
+                        campoAnioPub.setText(String.valueOf(resultado.get(0).getAnioPublicacion()));
+                        campoUnidadesDisponibles.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
                     }
 
                 });
@@ -402,6 +417,19 @@ public class Paneles extends JPanel {
                             campoCodigoRev.setEnabled(false);
                         }
                         //INGRESAR EL PROCESO DE BUSQUEDA DE DATOS <---------------------
+                        String codigoBuscar = campoCodigoRev.getText();
+                        List <Revista> resultado;
+                        try {
+                            resultado = buscar.buscarRevista(codigoBuscar);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        campoTituloRev.setText(resultado.get(0).getTitulo());
+                        campoPeriocidad.setText(resultado.get(0).getEditorial());
+                        campoFechaPub.setText(resultado.get(0).getFechaPublicacion());
+                        campoEditorialRev.setText(resultado.get(0).getEditorial());
+                        campoUnidadesDisponiblesRev.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
+
                     }
 
                 });
@@ -561,6 +589,20 @@ public class Paneles extends JPanel {
                             campoCodigoAud.setEnabled(false);
                         }
                         //INGRESAR EL PROCESO DE BUSQUEDA DE DATOS <---------------------
+
+                        String codigoBuscar = campoCodigoAud.getText();
+                        List <CD> resultado;
+                        try {
+                            resultado = buscar.buscarCD(codigoBuscar);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        campoTituloAud.setText(resultado.get(0).getTitulo());
+                        campoArtista.setText(resultado.get(0).getArtista());
+                        campoGenero.setText(resultado.get(0).getGenero());
+                        campoDuaracion.setText(String.valueOf(resultado.get(0).getDuracionMin()));
+                        campoNcanciones.setText(String.valueOf(resultado.get(0).getNumeroCanciones()));
+                        campoUnidadesDisponiblesAud.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
                     }
 
                 });
@@ -730,6 +772,19 @@ public class Paneles extends JPanel {
                             campoCodigoDVD.setEnabled(false);
                         }
                         //INGRESAR EL PROCESO DE BUSQUEDA DE DATOS <---------------------
+
+                        String codigoBuscar = campoCodigoDVD.getText();
+                        List <DVD> resultado;
+                        try {
+                            resultado = buscar.buscarDVD(codigoBuscar);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        campoTituloDVD.setText(resultado.get(0).getTitulo());
+                        campoDirector.setText(resultado.get(0).getDirector());
+                        campoDuracionDVD.setText(String.valueOf(resultado.get(0).getDuracionMin()));
+                        campoGeneroDVD.setText(resultado.get(0).getGenero());
+                        campoUnidadesDisponiblesDVD.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
                     }
 
                 });
@@ -826,11 +881,18 @@ public class Paneles extends JPanel {
         }
         //Crea la tabla
         JTable tabla = new JTable(modelo); //Se crea una instancia con base en el modelo
-        JScrollPane scroll = new JScrollPane(tabla); //Agrega un scroll para desplazarse por la tabla
+
+
+
+        JScrollPane scroll = new JScrollPane(tabla);
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+//Agrega un scroll para desplazarse por la tabla
 
         //Agregando la tabla al panel inferior
         panelInferior.removeAll(); //Elimina todos los componentes que puedan existir en el panel inferior
         panelInferior.setLayout(new BorderLayout()); //Define el BorderLayout para ubicar la tabla
+        panelInferior.setPreferredSize(new Dimension(800, 400)); // Establece un tamaño para que expanda las celdas
+
         panelInferior.add(scroll, BorderLayout.CENTER); //Se agrega el Scroll
         panelInferior.revalidate();
         panelInferior.repaint();

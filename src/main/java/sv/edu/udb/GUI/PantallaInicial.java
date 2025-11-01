@@ -12,7 +12,7 @@ public class PantallaInicial extends JFrame{
     public PantallaInicial() {
 
         pantalla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pantalla.setSize(600, 500);
+        pantalla.setSize(900, 500);
         pantalla.setLocationRelativeTo(null);
         pantalla.setResizable(true);
         pantalla.setVisible(true);

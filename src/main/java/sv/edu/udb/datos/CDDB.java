@@ -1,6 +1,7 @@
 package sv.edu.udb.datos;
 
 import sv.edu.udb.Hijasclass.CD;
+import sv.edu.udb.Hijasclass.Libro;
 import sv.edu.udb.Padresclass.Material;
 
 import java.sql.*;
@@ -16,6 +17,7 @@ public class CDDB {
     private final String SQL_DELETE = "DELETE FROM cd_audio WHERE id_material=?";
     private final String SQL_SELECT_POR_CODIGO_INTERNO = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, c.artista, c.genero, c.duracion_min, c.numero_canciones FROM cd_audio c INNER JOIN material m ON c.id_material = m.id WHERE m.codigo_interno=?";
     private final String SQL_SELECT_POR_ID = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, c.artista, c.genero, c.duracion_min, c.numero_canciones FROM cd_audio c INNER JOIN material m ON c.id_material = m.id WHERE m.id=?";
+    private final String SQL_SELECT_ALL = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, c.artista, c.genero, c.duracion_min, c.numero_canciones FROM cd_audio c INNER JOIN material m ON c.id_material = m.id";
 
     public CD insert(CD nuevoCD) throws SQLException {
         Connection conn = null;
@@ -177,6 +179,35 @@ public class CDDB {
         } finally {
             Conexion.close(stmt);
         }
+    }
+
+    public List<CD> selectALL() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<CD> cdsGuardados = new ArrayList<>();
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT_ALL);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                cdsGuardados.add(new CD(
+                        rs.getLong("id"),
+                        rs.getString("codigo_interno"),
+                        rs.getString("titulo"),
+                        rs.getInt("unidades_disponibles"),
+                        rs.getString("artista"),
+                        rs.getString("genero"),
+                        rs.getInt("duracion_min"),
+                        rs.getInt("numero_canciones")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+        }
+        return cdsGuardados;
     }
 
 }
