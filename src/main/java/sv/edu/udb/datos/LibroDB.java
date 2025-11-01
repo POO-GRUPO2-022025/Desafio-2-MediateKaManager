@@ -16,6 +16,8 @@ public class LibroDB {
     private final String SQL_DELETE = "DELETE FROM libro WHERE id_material=?";
     private final String SQL_SELECT_POR_CODIGO_INTERNO = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, l.autor, l.numero_paginas, l.editorial, l.isbn, l.anio_publicacion FROM libro l INNER JOIN material m ON l.id_material = m.id WHERE m.codigo_interno=?";
     private final String SQL_SELECT_POR_ID = "SELECT m.id, m.codigo_interno, m.titulo, m.unidades_disponibles, l.autor, l.numero_paginas, l.editorial, l.isbn, l.anio_publicacion FROM libro l INNER JOIN material m ON l.id_material = m.id WHERE m.id=?";
+    private static final String SQL_SELECT_ALL = "SELECT * FROM libros";
+
 
     public Libro insert(Libro nuevoLibro) throws SQLException {
         Connection conn = null;
@@ -184,5 +186,36 @@ public class LibroDB {
             Conexion.close(stmt);
         }
     }
+    public List<Libro> selectALL() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Libro> librosGuardados = new ArrayList<>();
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT_ALL);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                librosGuardados.add(new Libro(
+                        rs.getLong("id"),
+                        rs.getString("codigo_interno"),
+                        rs.getString("titulo"),
+                        rs.getInt("unidades_disponibles"),
+                        rs.getString("autor"),
+                        rs.getInt("numero_paginas"),
+                        rs.getString("editorial"),
+                        rs.getString("isbn"),
+                        rs.getInt("anio_publicacion")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+        }
+        return librosGuardados;
+    }
+
 
 }

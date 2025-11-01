@@ -16,7 +16,7 @@ public class PruebaConexion {
 
         try {
             // Probar conexión básica
-            // probarConexion();
+            probarConexion();
 
             // // Probar operaciones con Material
             // probarMaterialDB();
@@ -31,7 +31,7 @@ public class PruebaConexion {
             // probarCDDB();
 
             // // Probar operaciones con DVD
-            probarDVDDB();
+            //probarDVDDB();
 
             System.out.println("\n=== TODAS LAS PRUEBAS COMPLETADAS EXITOSAMENTE ===");
 
