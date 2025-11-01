@@ -1,18 +1,26 @@
 package sv.edu.udb.GUI;
+
+import sv.edu.udb.GUI.Acciones.AccionAlmacenar;
+import sv.edu.udb.GUI.Acciones.AccionListar;
+import sv.edu.udb.Hijasclass.Libro;
+import sv.edu.udb.datos.LibroDB;
+
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Paneles extends JPanel {
     private PantallaInicial pantalla;
+
     // Constructor que llama guarda el valor de opcionMenu desde Pantalla inicial
     public Paneles(PantallaInicial pantalla) {
         this.pantalla = pantalla;
     }
 
-    private final JPanel panelInferior = new JPanel(new BorderLayout());
+    private static final JPanel panelInferior = new JPanel(new BorderLayout());
     public String controlOpciones; //Se declara la varibale que permite controlar que panel mostrara
     private JPanel panelSuperior;
 
@@ -67,14 +75,7 @@ public class Paneles extends JPanel {
                 //El siguiente switch case, mostrará los datos de la tabla dependiendo la seleccion que se haga en el listado
                 switch (controlOpciones) {
                     case "Libro":
-                        //Se han agregado datos para prueba de la tabla
-                        String[] columnas = {"Libro", "Libro", "Libro"}; //Se definen las columnas y los encabezados
-                        List<Object[]> datos = new ArrayList<>(); //Se agrega instancia de un ArrayLista que se utilizara para agregar las datos de las fials
-                        //Se agregan datos para prueba al ArrayLista
-                        datos.add(new Object[]{"001", "El Quijote", "Cervantes"});
-                        datos.add(new Object[]{"002", "Cien años de soledad", "García Márquez"});
-                        //Llamamos al metodo para crear la tabla con las propiedas columnas y el arraylista datos
-                        mostrarTabla(columnas,datos);
+
 
                         break;
 
@@ -187,13 +188,16 @@ public class Paneles extends JPanel {
 
                             //INGRESAR EL PROCESO PARA GUARDAR LOS DATOS
 
-                            //Cuando se ingresan los datos muestra un mensaje confirmando y limpia la pantalla
-                            JOptionPane.showMessageDialog(null, "Se guardaron los datos");
-                            controlarPanel(panelSuperior, true);
-                            panel.removeAll();
-                            panel.revalidate();
-                            panel.repaint();
+                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigo,controlOpciones);
 
+                            //Cuando se ingresan los datos muestra un mensaje confirmando y limpia la pantalla
+                            if (respuesta) {
+                                //JOptionPane.showMessageDialog(null, "Se guardaron los datos");
+                                controlarPanel(panelSuperior, true);
+                                panel.removeAll();
+                                panel.revalidate();
+                                panel.repaint();
+                            }
                         } else { //Si hay un campo vacio muestra la advertencia
                             JOptionPane.showMessageDialog(null, "Validar que todos los campos esten completo", "Advertencia", JOptionPane.WARNING_MESSAGE);
 
@@ -363,12 +367,16 @@ public class Paneles extends JPanel {
 
                             //INGRESAR EL PROCESO PARA GUARDAR LOS DATOS
 
+                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigoRev,controlOpciones);
+
                             //Cuando se ingresan los datos muestra un mensaje confirmando y limpia la pantalla
-                            JOptionPane.showMessageDialog(null, "Se guardaron los datos");
-                            controlarPanel(panelSuperior, true);
-                            panel.removeAll();
-                            panel.revalidate();
-                            panel.repaint();
+                            if (respuesta) {
+                                //JOptionPane.showMessageDialog(null, "Se guardaron los datos");
+                                controlarPanel(panelSuperior, true);
+                                panel.removeAll();
+                                panel.revalidate();
+                                panel.repaint();
+                            }
 
                         } else { //Si hay un campo vacio muestra la advertencia
                             JOptionPane.showMessageDialog(null, "Validar que todos los campos esten completo", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -518,12 +526,16 @@ public class Paneles extends JPanel {
 
                             //INGRESAR EL PROCESO PARA GUARDAR LOS DATOS
 
+                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigoAud,controlOpciones);
+
                             //Cuando se ingresan los datos muestra un mensaje confirmando y limpia la pantalla
-                            JOptionPane.showMessageDialog(null, "Se guardaron los datos");
-                            controlarPanel(panelSuperior, true);
-                            panel.removeAll();
-                            panel.revalidate();
-                            panel.repaint();
+                            if (respuesta) {
+                                //JOptionPane.showMessageDialog(null, "Se guardaron los datos");
+                                controlarPanel(panelSuperior, true);
+                                panel.removeAll();
+                                panel.revalidate();
+                                panel.repaint();
+                            }
 
                         } else { //Si hay un campo vacio muestra la advertencia
                             JOptionPane.showMessageDialog(null, "Validar que todos los campos esten completo", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -683,12 +695,16 @@ public class Paneles extends JPanel {
 
                             //INGRESAR EL PROCESO PARA GUARDAR LOS DATOS
 
+                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigoDVD,controlOpciones);
+
                             //Cuando se ingresan los datos muestra un mensaje confirmando y limpia la pantalla
-                            JOptionPane.showMessageDialog(null, "Se guardaron los datos");
-                            controlarPanel(panelSuperior, true);
-                            panel.removeAll();
-                            panel.revalidate();
-                            panel.repaint();
+                            if (respuesta) {
+                                //JOptionPane.showMessageDialog(null, "Se guardaron los datos");
+                                controlarPanel(panelSuperior, true);
+                                panel.removeAll();
+                                panel.revalidate();
+                                panel.repaint();
+                            }
 
                         } else { //Si hay un campo vacio muestra la advertencia
                             JOptionPane.showMessageDialog(null, "Validar que todos los campos esten completo", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -850,4 +866,8 @@ public class Paneles extends JPanel {
         }
         return true; // Todos los campos tienen contenido
     }
+    public static JPanel getPanelInferior() {
+        return panelInferior;
+    }
+
 }
