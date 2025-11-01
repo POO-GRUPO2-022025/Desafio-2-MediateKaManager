@@ -32,6 +32,15 @@ public class Libro extends Material {
     public int getNumeroPaginas() {
         return numeroPaginas;
     }
+    // Alias para compatibilidad con código existente
+    public int getNumPaginas() {
+        return getNumeroPaginas();
+    }
+
+    public void setNumPaginas(int numPaginas) {
+        setNumeroPaginas(numPaginas);
+    }
+
 
     public void setNumeroPaginas(int numeroPaginas) {
         this.numeroPaginas = numeroPaginas;
