@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS mediateca;
+ DROP DATABASE IF EXISTS mediateca;
 CREATE DATABASE mediateca;
 USE mediateca;
 
