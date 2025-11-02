@@ -12,8 +12,6 @@ import sv.edu.udb.datos.RevistaDB;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class AccionListar {

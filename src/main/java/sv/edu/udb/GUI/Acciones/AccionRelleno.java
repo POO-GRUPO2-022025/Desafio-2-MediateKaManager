@@ -9,6 +9,7 @@ import sv.edu.udb.datos.DVDDB;
 import sv.edu.udb.datos.LibroDB;
 import sv.edu.udb.datos.RevistaDB;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class AccionRelleno {
 
             return libro;
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "No se encontro el material", "Advertencia", JOptionPane.WARNING_MESSAGE);
             throw new RuntimeException(e);
         }
     }

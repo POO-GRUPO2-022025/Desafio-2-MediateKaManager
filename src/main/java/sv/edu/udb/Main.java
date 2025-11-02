@@ -14,11 +14,5 @@ public class Main {
        logger.error("Hola UDB!");
         SwingUtilities.invokeLater(() -> new PantallaInicial());
 
-
-        SwingUtilities.invokeLater(() -> new PantallaInicial());
-
-
-
-
     }
 }
