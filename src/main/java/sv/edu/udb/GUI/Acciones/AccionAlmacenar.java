@@ -16,8 +16,12 @@ import java.util.List;
 
 public class AccionAlmacenar {
 
+
+
+
+
     //Almacena los datos, este metodo requiere un panel, campo omitido que no es incluido siempre es el campoCodigo, y el tipo de material
-    public static boolean AlmacenarDatos(JPanel panel, JTextField campoOmitido, String tipo) {
+    public static boolean AlmacenarDatos(JPanel panel, JTextField campoOmitido, String tipo,String codigoInterno, Long ID,String menu) {
         List<String> datos = new ArrayList<>();
         LibroDB libroDB = new LibroDB();
         RevistaDB revistaDB = new RevistaDB();
@@ -25,11 +29,16 @@ public class AccionAlmacenar {
         DVDDB dvdDB = new DVDDB();
         boolean Resultado = true;
 
+
         for (Component comp : panel.getComponents()) {
             if (comp instanceof JTextField && comp != campoOmitido) {
                 JTextField campo = (JTextField) comp;
                 datos.add(campo.getText());
             }
+        }
+        if (menu.equals("Agregar")){
+            ID = Long.valueOf(0);
+            codigoInterno = "";
         }
 
         try {
@@ -40,8 +49,8 @@ public class AccionAlmacenar {
             case "Libro":
 
                 Libro libro = new Libro(
-                        0,
-                        "",
+                        ID,
+                        codigoInterno,
                         datos.get(0), //Titulo
                         Integer.parseInt(datos.get(6)), //Unidades disponibles
                         datos.get(1), //Autor
@@ -50,28 +59,42 @@ public class AccionAlmacenar {
                         datos.get(4), //ISBN
                         Integer.parseInt(datos.get(5))); //Año de publicacion
 
-                libroDB.insert(libro); // Metodo para almacenar
+
+                if (menu.equals("modificar")) {
+
+                    libroDB.update(libro); // Metodo para almacenar
+
+                }else if (menu.equals("Agregar")) {
+                    libroDB.insert(libro);
+                }
                 JOptionPane.showMessageDialog(null, "Se guardaron los datos");
 
             break;
             case "Revista":
                 Revista revista = new Revista(
-                        0,
-                        "",
+                        ID,
+                        codigoInterno,
                         datos.get(0), //Titulo
                         Integer.parseInt(datos.get(4)), //Unidades disponibles
                         datos.get(1), //Editorial
                         datos.get(2), //Periocidad
                         datos.get(3)); //Fecha de publicacion
+                if (menu.equals("modificar")) {
 
-                revistaDB.insert(revista);
+                    revistaDB.update(revista); // Metodo para almacenar
+
+                }else if (menu.equals("Agregar")) {
+                    revistaDB.insert(revista);
+                }
+
+
                 JOptionPane.showMessageDialog(null, "Se guardaron los datos");
 
                 break;
             case "CD Audio":
                 sv.edu.udb.Hijasclass.CD cd = new CD(
-                        0,
-                        "",
+                        ID,
+                        codigoInterno,
                         datos.get(0), //Titulo
                         Integer.parseInt(datos.get(5)), //Unidades disponibles
                         datos.get(1), //Artista
@@ -79,28 +102,38 @@ public class AccionAlmacenar {
                         Integer.parseInt(datos.get(3)), //Duracion
                         Integer.parseInt(datos.get(4))); //Numero de canciones
 
-                cdDB.insert(cd);
+                if (menu.equals("modificar")) {
+
+                    cdDB.update(cd); // Metodo para almacenar
+
+                }else if (menu.equals("Agregar")) {
+                    cdDB.insert(cd);
+                }
                 JOptionPane.showMessageDialog(null, "Se guardaron los datos");
 
                 break;
             case "DVD":
                 DVD dvd = new DVD(
-                        0,
-                        "",
+                        ID,
+                        codigoInterno,
                         datos.get(0), //Titulo
                         Integer.parseInt(datos.get(4)), //Unidades disponibles
                         datos.get(1), //Director
                         datos.get(3),//Genero
                         Integer.parseInt(datos.get(2))); //Duracion
 
+                if (menu.equals("modificar")) {
 
-                dvdDB.insert(dvd);
+                    dvdDB.update(dvd); // Metodo para almacenar
+
+                }else if (menu.equals("Agregar")) {
+                    dvdDB.insert(dvd);
+                }
                 JOptionPane.showMessageDialog(null, "Se guardaron los datos");
                 break;
         }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Hay problemas para guardar los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            Resultado = false;
             throw new RuntimeException(e);
         } catch (NumberFormatException e) {
             Resultado = false;

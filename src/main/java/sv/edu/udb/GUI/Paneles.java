@@ -26,6 +26,7 @@ import sv.edu.udb.Hijasclass.CD;
 import sv.edu.udb.Hijasclass.DVD;
 import sv.edu.udb.Hijasclass.Libro;
 import sv.edu.udb.Hijasclass.Revista;
+import sv.edu.udb.datos.LibroDB;
 
 public class Paneles extends JPanel {
     private PantallaInicial pantalla;
@@ -38,6 +39,7 @@ public class Paneles extends JPanel {
     private static final JPanel panelInferior = new JPanel(new BorderLayout());
     public String controlOpciones; //Se declara la varibale que permite controlar que panel mostrara
     private JPanel panelSuperior;
+    public  Long ID;
 
     // El siguiente metodo prepara los dos paneles superior e inferior
     public void construirPanel() {
@@ -147,17 +149,22 @@ public class Paneles extends JPanel {
 
     // Metodo para el panel inferior que contiene los diferentes formularios dependiendo el tipo de material
     public JPanel crearPanelInferior() {
+
         String menu = pantalla.getOpcioneMenu(); //Se obtiene la opcion que se trabaja si es para agregar, modificar, etc.
         System.out.println("Opción desde PantallaInicial: " + menu);//Solo es para control BORRAR
         panelInferior.setPreferredSize(new Dimension(800, 400));
 
         AccionRelleno buscar = new AccionRelleno();
 
+
+
         JPanel panel = new JPanel(); //Se declara el nuevo panel que se trabajara con las opciones para ingresar datos
         panel.setLayout(new GridBagLayout()); //Setea el panel con GridBagLayout para controlar cada uno de los elementos
         GridBagConstraints gbc = new GridBagConstraints();//gbc nos permitira ubicar cada elemento ordenado en un grid
         switch (controlOpciones) {
             case "Libro":
+
+
 
                 //Elementos que se utilizan para Libro
                 JLabel codigo = new JLabel("Codigo: ");
@@ -201,7 +208,9 @@ public class Paneles extends JPanel {
 
                             //INGRESAR EL PROCESO PARA GUARDAR LOS DATOS
 
-                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigo,controlOpciones);
+
+                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigo,controlOpciones,campoCodigo.getText(),ID,menu);
+                            System.out.println(respuesta);
 
                             //Cuando se ingresan los datos muestra un mensaje confirmando y limpia la pantalla
                             if (respuesta) {
@@ -214,9 +223,13 @@ public class Paneles extends JPanel {
                         } else { //Si hay un campo vacio muestra la advertencia
                             JOptionPane.showMessageDialog(null, "Validar que todos los campos esten completo", "Advertencia", JOptionPane.WARNING_MESSAGE);
 
+
                         }
                     }else{ //Si está en la opcion borrar se ejecutará el proceso para borrar los datos
                         //AGREGAR EL PROCESO PARA BORRAR LOS DATOS
+
+
+
                     }
                 });
 
@@ -243,6 +256,7 @@ public class Paneles extends JPanel {
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
+                        ID=resultado.get(0).getId(); //Obtener el ID y poder modificar cuando se usa update
                         campoTitulo.setText(resultado.get(0).getTitulo());
                         campoAutor.setText(resultado.get(0).getAutor());
                         campoNumPaginas.setText(String.valueOf(resultado.get(0).getNumeroPaginas()));
@@ -395,7 +409,7 @@ public class Paneles extends JPanel {
 
                             //INGRESAR EL PROCESO PARA GUARDAR LOS DATOS
 
-                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigoRev,controlOpciones);
+                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigoRev,controlOpciones,campoCodigoRev.getText(),ID,menu);
 
                             //Cuando se ingresan los datos muestra un mensaje confirmando y limpia la pantalla
                             if (respuesta) {
@@ -437,6 +451,7 @@ public class Paneles extends JPanel {
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
+                        ID=resultado.get(0).getId();
                         campoTituloRev.setText(resultado.get(0).getTitulo());
                         campoPeriocidad.setText(resultado.get(0).getEditorial());
                         campoFechaPub.setText(resultado.get(0).getFechaPublicacion());
@@ -567,7 +582,7 @@ public class Paneles extends JPanel {
 
                             //INGRESAR EL PROCESO PARA GUARDAR LOS DATOS
 
-                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigoAud,controlOpciones);
+                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigoAud,controlOpciones,campoCodigoAud.getText(),ID,menu);
 
                             //Cuando se ingresan los datos muestra un mensaje confirmando y limpia la pantalla
                             if (respuesta) {
@@ -610,6 +625,7 @@ public class Paneles extends JPanel {
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
+                        ID=resultado.get(0).getId();
                         campoTituloAud.setText(resultado.get(0).getTitulo());
                         campoArtista.setText(resultado.get(0).getArtista());
                         campoGenero.setText(resultado.get(0).getGenero());
@@ -750,7 +766,7 @@ public class Paneles extends JPanel {
 
                             //INGRESAR EL PROCESO PARA GUARDAR LOS DATOS
 
-                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigoDVD,controlOpciones);
+                            boolean respuesta = AccionAlmacenar.AlmacenarDatos(panel,campoCodigoDVD,controlOpciones,campoCodigoDVD.getText(),ID,menu);
 
                             //Cuando se ingresan los datos muestra un mensaje confirmando y limpia la pantalla
                             if (respuesta) {
@@ -793,6 +809,7 @@ public class Paneles extends JPanel {
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
+                        ID=resultado.get(0).getId();
                         campoTituloDVD.setText(resultado.get(0).getTitulo());
                         campoDirector.setText(resultado.get(0).getDirector());
                         campoDuracionDVD.setText(String.valueOf(resultado.get(0).getDuracionMin()));
