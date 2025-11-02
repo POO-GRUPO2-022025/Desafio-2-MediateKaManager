@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import sv.edu.udb.GUI.Acciones.AccionAlmacenar;
+import sv.edu.udb.GUI.Acciones.AccionBorrar;
 import sv.edu.udb.GUI.Acciones.AccionListar;
 import sv.edu.udb.GUI.Acciones.AccionRelleno;
 import sv.edu.udb.Hijasclass.CD;
@@ -227,6 +228,18 @@ public class Paneles extends JPanel {
                         }
                     }else{ //Si está en la opcion borrar se ejecutará el proceso para borrar los datos
                         //AGREGAR EL PROCESO PARA BORRAR LOS DATOS
+                       Boolean result = AccionBorrar.borrar(controlOpciones,ID);
+
+                       if (result=true){
+                           JOptionPane.showMessageDialog(null, "Se borro el "+controlOpciones);
+                           controlarPanel(panelSuperior,true);
+                           panel.removeAll();
+                           panel.revalidate();
+                           panel.repaint();
+
+                       }else{
+                           JOptionPane.showMessageDialog(null, "No se logro borrar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                       }
 
 
 
@@ -255,15 +268,26 @@ public class Paneles extends JPanel {
                             resultado = buscar.buscarLibro(codigoBuscar);
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
+
                         }
-                        ID=resultado.get(0).getId(); //Obtener el ID y poder modificar cuando se usa update
-                        campoTitulo.setText(resultado.get(0).getTitulo());
-                        campoAutor.setText(resultado.get(0).getAutor());
-                        campoNumPaginas.setText(String.valueOf(resultado.get(0).getNumeroPaginas()));
-                        campoEditorial.setText(resultado.get(0).getEditorial());
-                        campoISBN.setText(resultado.get(0).getIsbn());
-                        campoAnioPub.setText(String.valueOf(resultado.get(0).getAnioPublicacion()));
-                        campoUnidadesDisponibles.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
+                        if (resultado.isEmpty()) {
+
+                            JOptionPane.showMessageDialog(null, "El codigo ingresado no se encontro", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            campoCodigo.setEnabled(true);
+
+
+                        }else{
+                            ID=resultado.get(0).getId(); //Obtener el ID y poder modificar cuando se usa update
+                            campoTitulo.setText(resultado.get(0).getTitulo());
+                            campoAutor.setText(resultado.get(0).getAutor());
+                            campoNumPaginas.setText(String.valueOf(resultado.get(0).getNumeroPaginas()));
+                            campoEditorial.setText(resultado.get(0).getEditorial());
+                            campoISBN.setText(resultado.get(0).getIsbn());
+                            campoAnioPub.setText(String.valueOf(resultado.get(0).getAnioPublicacion()));
+                            campoUnidadesDisponibles.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
+
+                        }
+
                     }
 
                 });
@@ -426,6 +450,19 @@ public class Paneles extends JPanel {
                         }
                     }else{ //Si está en la opcion borrar se ejecutará el proceso para borrar los datos
                         //AGREGAR EL PROCESO PARA BORRAR LOS DATOS
+
+                        Boolean result = AccionBorrar.borrar(controlOpciones,ID);
+
+                        if (result=true){
+                            JOptionPane.showMessageDialog(null, "Se borro el "+controlOpciones);
+                            controlarPanel(panelSuperior,true);
+                            panel.removeAll();
+                            panel.revalidate();
+                            panel.repaint();
+
+                        }else{
+                            JOptionPane.showMessageDialog(null, "No se logro borrar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        }
                     }
                 });
 
@@ -445,19 +482,28 @@ public class Paneles extends JPanel {
                         }
                         //INGRESAR EL PROCESO DE BUSQUEDA DE DATOS <---------------------
                         String codigoBuscar = campoCodigoRev.getText();
-                        List <Revista> resultado;
+                        List<Revista> resultado;
                         try {
                             resultado = buscar.buscarRevista(codigoBuscar);
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
-                        ID=resultado.get(0).getId();
-                        campoTituloRev.setText(resultado.get(0).getTitulo());
-                        campoPeriocidad.setText(resultado.get(0).getEditorial());
-                        campoFechaPub.setText(resultado.get(0).getFechaPublicacion());
-                        campoEditorialRev.setText(resultado.get(0).getEditorial());
-                        campoUnidadesDisponiblesRev.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
+                        if (resultado.isEmpty()) {
 
+                            JOptionPane.showMessageDialog(null, "El codigo ingresado no se encontro", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            campoCodigoRev.setEnabled(true);
+
+
+                        } else {
+
+                            ID = resultado.get(0).getId();
+                            campoTituloRev.setText(resultado.get(0).getTitulo());
+                            campoPeriocidad.setText(resultado.get(0).getEditorial());
+                            campoFechaPub.setText(resultado.get(0).getFechaPublicacion());
+                            campoEditorialRev.setText(resultado.get(0).getEditorial());
+                            campoUnidadesDisponiblesRev.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
+
+                        }
                     }
 
                 });
@@ -599,6 +645,19 @@ public class Paneles extends JPanel {
                         }
                     }else{ //Si está en la opcion borrar se ejecutará el proceso para borrar los datos
                         //AGREGAR EL PROCESO PARA BORRAR LOS DATOS
+
+                        Boolean result = AccionBorrar.borrar(controlOpciones,ID);
+
+                        if (result=true){
+                            JOptionPane.showMessageDialog(null, "Se borro el "+controlOpciones);
+                            controlarPanel(panelSuperior,true);
+                            panel.removeAll();
+                            panel.revalidate();
+                            panel.repaint();
+
+                        }else{
+                            JOptionPane.showMessageDialog(null, "No se logro borrar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        }
                     }
                 });
 
@@ -619,19 +678,27 @@ public class Paneles extends JPanel {
                         //INGRESAR EL PROCESO DE BUSQUEDA DE DATOS <---------------------
 
                         String codigoBuscar = campoCodigoAud.getText();
-                        List <CD> resultado;
+                        List<CD> resultado;
                         try {
                             resultado = buscar.buscarCD(codigoBuscar);
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
-                        ID=resultado.get(0).getId();
-                        campoTituloAud.setText(resultado.get(0).getTitulo());
-                        campoArtista.setText(resultado.get(0).getArtista());
-                        campoGenero.setText(resultado.get(0).getGenero());
-                        campoDuaracion.setText(String.valueOf(resultado.get(0).getDuracionMin()));
-                        campoNcanciones.setText(String.valueOf(resultado.get(0).getNumeroCanciones()));
-                        campoUnidadesDisponiblesAud.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
+                        if (resultado.isEmpty()) {
+
+                            JOptionPane.showMessageDialog(null, "El codigo ingresado no se encontro", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            campoCodigoAud.setEnabled(true);
+
+
+                        } else {
+                            ID = resultado.get(0).getId();
+                            campoTituloAud.setText(resultado.get(0).getTitulo());
+                            campoArtista.setText(resultado.get(0).getArtista());
+                            campoGenero.setText(resultado.get(0).getGenero());
+                            campoDuaracion.setText(String.valueOf(resultado.get(0).getDuracionMin()));
+                            campoNcanciones.setText(String.valueOf(resultado.get(0).getNumeroCanciones()));
+                            campoUnidadesDisponiblesAud.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
+                        }
                     }
 
                 });
@@ -783,6 +850,19 @@ public class Paneles extends JPanel {
                         }
                     }else{ //Si está en la opcion borrar se ejecutará el proceso para borrar los datos
                         //AGREGAR EL PROCESO PARA BORRAR LOS DATOS
+
+                        Boolean result = AccionBorrar.borrar(controlOpciones,ID);
+
+                        if (result=true){
+                            JOptionPane.showMessageDialog(null, "Se borro el "+controlOpciones);
+                            controlarPanel(panelSuperior,true);
+                            panel.removeAll();
+                            panel.revalidate();
+                            panel.repaint();
+
+                        }else{
+                            JOptionPane.showMessageDialog(null, "No se logro borrar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        }
                     }
                 });
 
@@ -803,19 +883,29 @@ public class Paneles extends JPanel {
                         //INGRESAR EL PROCESO DE BUSQUEDA DE DATOS <---------------------
 
                         String codigoBuscar = campoCodigoDVD.getText();
-                        List <DVD> resultado;
+                        List<DVD> resultado;
                         try {
                             resultado = buscar.buscarDVD(codigoBuscar);
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
-                        ID=resultado.get(0).getId();
-                        campoTituloDVD.setText(resultado.get(0).getTitulo());
-                        campoDirector.setText(resultado.get(0).getDirector());
-                        campoDuracionDVD.setText(String.valueOf(resultado.get(0).getDuracionMin()));
-                        campoGeneroDVD.setText(resultado.get(0).getGenero());
-                        campoUnidadesDisponiblesDVD.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
+
+                        if (resultado.isEmpty()) {
+
+                            JOptionPane.showMessageDialog(null, "El codigo ingresado no se encontro", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            campoCodigoDVD.setEnabled(true);
+
+
+                        } else {
+                            ID = resultado.get(0).getId();
+                            campoTituloDVD.setText(resultado.get(0).getTitulo());
+                            campoDirector.setText(resultado.get(0).getDirector());
+                            campoDuracionDVD.setText(String.valueOf(resultado.get(0).getDuracionMin()));
+                            campoGeneroDVD.setText(resultado.get(0).getGenero());
+                            campoUnidadesDisponiblesDVD.setText(String.valueOf(resultado.get(0).getUnidadesDisponibles()));
+                        }
                     }
+
 
                 });
 
@@ -931,14 +1021,8 @@ public class Paneles extends JPanel {
 
     //Utilidades varias en metodos
 
-    //Metodo que nos permite limpiar los JTextField de un panel
-    public void limpiarCampos(JPanel panel) {
-        for (Component comp : panel.getComponents()) {
-            if (comp instanceof JTextField) {
-                ((JTextField) comp).setText("");
-            }
-        }
-    }
+
+
     //Desactivar los elementos de un panel
     public void controlarPanel(JPanel panel,Boolean estado) {
         for (Component comp : panel.getComponents()) {
@@ -958,8 +1042,6 @@ public class Paneles extends JPanel {
         }
         return true; // Todos los campos tienen contenido
     }
-    public static JPanel getPanelInferior() {
-        return panelInferior;
-    }
+
 
 }
