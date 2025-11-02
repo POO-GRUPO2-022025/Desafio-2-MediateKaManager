@@ -1,6 +1,4 @@
 package sv.edu.udb.GUI.Acciones;
-
-import sv.edu.udb.Hijasclass.CD;
 import sv.edu.udb.datos.CDDB;
 import sv.edu.udb.datos.DVDDB;
 import sv.edu.udb.datos.LibroDB;
